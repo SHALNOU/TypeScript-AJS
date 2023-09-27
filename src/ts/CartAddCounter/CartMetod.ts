@@ -1,0 +1,29 @@
+import CounterCart from "../cartDom/CounterCart";
+
+
+
+export default class Cart {
+	private _items: CounterCart[] = [];
+
+	add(item: CounterCart): void {
+		if (!this._items.some((el) => el.id === item.id)) {
+			this._items.push(item);
+		}
+	}
+
+	get items(): CounterCart[] {
+		return [...this._items];
+	}
+
+	countTotal(): number {
+		return this._items.reduce((sum, item) => sum + item.price * item.count, 0);
+	}
+
+	countTotalWithDiscount(discount: number): number {
+		return this.countTotal() * (1 - discount / 100);
+	}
+
+	removeCart(id: number): void {
+		this._items = this._items.filter((item: CounterCart) => item.id !== id);
+	}
+}
